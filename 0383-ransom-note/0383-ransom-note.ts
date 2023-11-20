@@ -1,9 +1,20 @@
 function canConstruct(ransomNote: string, magazine: string): boolean {
-  const ransomNoteArr = ransomNote.split("");
-  magazine.split("").forEach((item) => {
-    if (ransomNoteArr.includes(item)) {
-      ransomNoteArr.splice(ransomNoteArr.indexOf(item), 1);
+  const magazineCounts: Record<string, number> = {};
+
+  for (const char of magazine) {
+    if (magazineCounts[char]) {
+      magazineCounts[char]++;
+    } else {
+      magazineCounts[char] = 1;
     }
-  });
-  return ransomNoteArr.length === 0;
+  }
+
+  for (const char of ransomNote) {
+    if (!magazineCounts[char] || magazineCounts[char] === 0) {
+      return false;
+    }
+    magazineCounts[char]--;
+  }
+
+  return true;
 }
